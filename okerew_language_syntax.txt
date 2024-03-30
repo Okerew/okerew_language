@@ -1,0 +1,28 @@
+input(a)| input string
+print(a) | print a
+print 'something' | print a string with something
+for a < or > something | for loop
+while a = something: | while loop
+if a = something: | if statement
+else: | else statement
+exit | exit the program
+a = something | assign a value
+a + b | add a and b
+a - b | subtract a and b
+a * b | multiply a and b
+a / b | divide a and b
+a % b | mod a and b
+a ** b | power a and b
+a // b | floor divide a and b
+a & b | bitwise and a and b
+a | b | bitwise or a and b
+a ^ b | bitwise xor a and b
+a << b | bitwise left shift a and b
+a >> b | bitwise right shift a and b
+a == b | check if a and b are equal
+a != b | check if a and b are not equal
+a > b | check if a is greater than b
+a < b | check if a is less than b
+a >= b | check if a is greater than or equal to b
+a <= b | check if a is less than or equal to b
+elif a = something: | elif statement
