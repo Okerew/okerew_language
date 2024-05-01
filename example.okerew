@@ -1,0 +1,4 @@
+? This is an example okerew file
+input(a)
+print(a)
+print(5 + 5)
