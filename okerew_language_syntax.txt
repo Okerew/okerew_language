@@ -1,4 +1,4 @@
-input(a)| input string
+input(a)| input string or int
 print(a) | print a
 print 'something' | print a string with something
 for a < or > something | for loop
@@ -6,6 +6,8 @@ while a = something: | while loop
 if a = something: | if statement
 else: | else statement
 exit | exit the program
+leave | leaves a function
+func | call a function
 a = something | assign a value
 a + b | add a and b
 a - b | subtract a and b
@@ -26,3 +28,9 @@ a < b | check if a is less than b
 a >= b | check if a is greater than or equal to b
 a <= b | check if a is less than or equal to b
 elif a = something: | elif statement
+Example function:
+func my_function
+    print 'Hello, World!'
+    leave
+
+my_function
