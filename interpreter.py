@@ -1,5 +1,6 @@
 import re
 import sys
+
 TOKEN_TYPES = [
     ('KEYWORD', r'(input|print|exec|func|for|while|if|else|exit|elif|leave)'),
     ('OPERATOR', r'(\+|\-|\*|\/|\%|\*\*|\/\/|\&|\||\^|<<|>>|==|!=|>|<|>=|<=)'),
@@ -27,7 +28,6 @@ def lexer(code):
 def load_code_from_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
-
 
 class OkerewInterpreter:
     def __init__(self):
@@ -103,7 +103,8 @@ class OkerewInterpreter:
 
             elif current_token[0] == 'IDENTIFIER':
                 variable_name = current_token[1]
-                if self.get_next_token_value(tokens, token_index + 1) == '=':
+                next_token = self.get_next_token_value(tokens, token_index + 1)
+                if next_token and next_token[0] == 'ASSIGNMENT':
                     expression_value = self.evaluate_expression(tokens, token_index + 2)
                     self.variables[variable_name] = expression_value
                     token_index += 3
@@ -115,7 +116,6 @@ class OkerewInterpreter:
 
     def define_function(self, tokens, start_index):
         index = start_index + 1
-        # Skip any whitespace after the 'func' keyword
         while index < len(tokens) and tokens[index][0] == 'WHITESPACE':
             index += 1
 
@@ -128,7 +128,7 @@ class OkerewInterpreter:
 
             function_body = []
             while index < len(tokens):
-                if tokens[index][0] == 'KEYWORD' and tokens[index][1] == ('leave'):
+                if tokens[index][0] == 'KEYWORD' and tokens[index][1] == 'leave':
                     index += 1
                     break
                 function_body.append(tokens[index])
@@ -138,7 +138,6 @@ class OkerewInterpreter:
             return index
         else:
             raise SyntaxError("Function name must be an identifier")
-
 
     def find_matching_keyword(self, tokens, start_index, keyword1, keyword2):
         count = 0
@@ -154,17 +153,12 @@ class OkerewInterpreter:
 
         return len(tokens) - 1
 
-    def expect_and_skip(self, tokens, index, expected_type, expected_value):
-        if index < len(tokens):
-            next_token = tokens[index]
-            if next_token[0] == expected_type and next_token[1] == expected_value:
-                return index + 1
-        raise SyntaxError(f"Expected '{expected_value}' but found {next_token[1]} at index {index}")
-
     def evaluate_expression(self, tokens, start_index):
         expression_tokens = tokens[start_index:]
         expression = ''
         for token in expression_tokens:
+            if token[0] == 'WHITESPACE':
+                continue
             if token[0] in ('NUMBER', 'IDENTIFIER', 'OPERATOR', 'STRING'):
                 expression += token[1]
             elif token[0] == 'NEWLINE':
@@ -179,13 +173,14 @@ class OkerewInterpreter:
         except Exception as e:
             print(f"Error evaluating expression: {e}")
             return None
-        
+
     def get_next_token_value(self, tokens, index):
+        while index < len(tokens) and tokens[index][0] == 'WHITESPACE':
+            index += 1
         if index < len(tokens):
             return tokens[index]
         else:
             return None
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
